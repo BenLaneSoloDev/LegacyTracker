@@ -1,0 +1,39 @@
+/* * {
+    border-color: aqua;
+    border-radius: 1px;
+    border-style: solid;
+} */
+
+body {
+    background-color: var(--primary-color);
+    font-family: var(--default-font);
+}
+
+/**  HEADER DIV  **/
+
+.titleDiv { 
+
+}
+
+h1 {
+    color: white;
+    text-transform: uppercase;
+}
+
+/**  SEARCH DIV  **/
+
+.filter {
+    border-color: aqua;
+    border-radius: 1px;
+    border-style: solid;
+}
+
+
+
+/**  DISPLAY DIV  **/
+
+.display-div {
+
+}
+
+/**  LINK DIV  **/
