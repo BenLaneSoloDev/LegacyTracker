@@ -1,4 +1,4 @@
-import { TMDB_API_KEY } from "./config.js";
+import { ACCESS_TOKEN_AUTH } from "./config.js";
 
 // SETUP PERSON AUTOFILL
 const personElm = document.getElementById("person-select");
@@ -14,8 +14,16 @@ async function fetchPersonSuggestions(query) {
         return;
     }
 
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${ACCESS_TOKEN_AUTH}`
+        }
+    };
+
     // Create endpoint request
-    const endpoint = `https://api.themoviedb.org/3/search/person?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`;
+    const endpoint = `https://api.themoviedb.org/3/search/person&query=${encodeURIComponent(query)}`;
 
     try {
         const response = await fetch(endpoint);
