@@ -1,31 +1,121 @@
-/* * {
-    border-color: aqua;
-    border-radius: 1px;
-    border-style: solid;
-} */
+* {
+    box-sizing: border-box;
+}
 
 body {
     background-color: var(--primary-color);
     font-family: var(--default-font);
+
+    margin: 0px;
+    color: white;
+
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
 }
 
 /**  HEADER DIV  **/
 
-.titleDiv { 
-
+.title-div { 
+    
 }
 
 h1 {
-    color: white;
     text-transform: uppercase;
+    text-align: center;
+    min-width: 100px;
+    font-size: 3rem;
+    margin-block: 60px; /** GAP ABOVE AND BELOW TITLE **/
 }
 
 /**  SEARCH DIV  **/
 
+.search-div {
+    display: flex;
+    flex-direction: column;
+    margin-inline: 10%;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 40px; /** GAP UNDER FILTER TITLE **/
+}
+
+h2 strong {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    color: #00f7d6;
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filter-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2%;
+    width: 100%;
+}
+
 .filter {
-    border-color: aqua;
-    border-radius: 1px;
-    border-style: solid;
+    padding-block: 5px;
+}
+
+.filter, .creative {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 15%;
+    min-width: 300px;
+    height: auto;
+}
+
+/** CUSTOM OVERRIDE OF FILTER TO ALLOW NESTED ONES TO WORK **/
+.creative .filter {
+    width: 100%;
+    max-width: 100%;
+}
+
+.filter label {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.filter select {
+    background-color: #f9f9f9;
+    max-width: 80%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    border-radius: 20px;
+    margin-block: 5px;
+}
+
+.filter input {
+    background-color: #f9f9f9;
+    max-width: 80%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    border-radius: 20px;
+    margin-block: 5px;
+}
+
+.role {
+    display: none;
+}
+
+#filter-submit {
+    max-width: 10%;
+    height: 50px;
+    min-width: 200px;
+    border-radius: 20px;
+    margin-block: 20px 
 }
 
 
@@ -33,7 +123,12 @@ h1 {
 /**  DISPLAY DIV  **/
 
 .display-div {
-
+    flex:1;
+    background-color: #00f7d6;
 }
 
 /**  LINK DIV  **/
+
+.link-div p {
+    text-align: center;
+}

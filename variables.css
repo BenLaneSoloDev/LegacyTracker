@@ -1,4 +1,5 @@
 :root {
     --primary-color: #2F4752;
     --default-font: "Montserrat", "serif";
+    --debug-border: 1px solid rgb(159, 167, 167);
 }
