@@ -107,7 +107,7 @@ h2 strong {
 }
 
 .role {
-    display: none;
+    
 }
 
 #filter-submit {
@@ -131,4 +131,10 @@ h2 strong {
 
 .link-div p {
     text-align: center;
+}
+
+/** OVERRIDES **/
+
+.is-hidden {
+    display: none;
 }

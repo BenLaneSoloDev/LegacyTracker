@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/variables.css">
     <link rel="stylesheet" href="./css/styles.css">
+    <script type="module" src="js/index.js"></script>
     <title>Legacy Tracker</title>
 </head>
 <body>
@@ -17,7 +18,7 @@
             <div class="filter-list">
                 <div class="filter franchise">
                     <label for="franchise-select">Franchise</label>
-                    <select id="franchise-select" name="franchises">
+                    <select id="franchise-select" name="franchise">
                         <option value="">None</option>
                         <option value="mcu">MCU</option>
                         <option value="dcu">DCU</option>
@@ -33,10 +34,10 @@
                         <datalist id="person-results"></datalist> <!-- Data list is filled by a request -->
                     </div>
 
-                    <div class="filter role" hidden> <!-- Must be made visible upon choosing a person -->
+                    <div class="filter role is-hidden"> <!-- Must be made visible upon choosing a person -->
                         <label for="role-select">Role</label>
-                        <select id="role-select" name="role" disabled> <!-- Must be made functional upon choosing a person -->
-                            <option value="all">All Roles</option>
+                        <select id="role-select" name="role"> <!-- Must be made functional upon choosing a person -->
+                            <option value="">All Roles</option>
                             <option value="actor">Actor</option>
                             <option value="director">Director</option>
                             <option value="writer">Writer</option>
