@@ -15,10 +15,10 @@ async function fetchPersonSuggestions(query) {
     }
 
     // Create endpoint request
-    const endpoint = `https://api.themoviedb.org/3/search/person?api_key${TMDB_API_KEY}&query=${encodeURIComponent(query)}`;
+    const endpoint = `https://api.themoviedb.org/3/search/person?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`;
 
     try {
-        const response = await fetch(endpoint, options);
+        const response = await fetch(endpoint);
         
         if (!response.ok) {
             throw new Error(`Network response error: ${response.status}`);
