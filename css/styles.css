@@ -125,6 +125,13 @@ h2 strong {
 .display-div {
     flex:1;
     background-color: #00f7d6;
+    padding: 5%;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 /**  LINK DIV  **/

@@ -82,8 +82,8 @@ function debounce(func, delay = 300) {
 const debounceFetch = debounce((query) => {
 
     // Handle Toggling Role Filter
-    if (query) { roleElm.classList.remove("is-hidden"); }
-    else { roleElm.classList.add("is-hidden"); }
+    // if (query) { roleElm.classList.remove("is-hidden"); }
+    // else { roleElm.classList.add("is-hidden"); }
 
     // Handles Fetch
     fetchPersonSuggestions(query);
@@ -107,23 +107,98 @@ personElm.addEventListener("input", (event) => {
     debounceFetch(event.target.value);
 });
 
-// HANDLE DECADE OPTION GENERATION
-
-
-
 // HANDLE FORM SUBMISSIONS
 const formElm = document.querySelector(".filter-form");
-formElm.addEventListener("submit", (event) => {
+const gridElm = document.querySelector(".grid");
+
+formElm.addEventListener("submit", extractFormData); 
+
+async function extractFormData(event) {
     event.preventDefault(); // STOP PAGE REFRESH
 
     // EXTRACT DATA
     const formData = new FormData(formElm);
-    const franchise = formData.get('franchise');
-    const person = formData.get('person');
-    const role = formData.get('role');
-    const decade = formData.get('decade');
+    const dataObj = {
+        person: formData.get('person')
+    };
 
-    // PRINT DATA
-    console.log("Form submitted successfully!");
-    console.log(`Searching for: ${franchise} - ${person} - ${role} - ${decade}"`);
-}); 
+    const movies = await fetchMovieScores(dataObj);
+
+    generateGridElements(movies);
+}
+
+async function fetchMovieScores(dataObj) {
+    if (!dataObj.person.trim()) {
+        console.log("NO PERSON SELECTED") // NEED TO DISPLAY ERROR ON SCREEN
+        return;
+    }
+
+    // Grab the persons ID
+    const endpointId = `https://api.themoviedb.org/3/search/person?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(dataObj.person)}`;
+    let personId;
+
+    try {
+        const responseId = await fetch(endpointId);
+
+        if (!responseId.ok) {
+            throw new Error(`Network response error: ${responseId.status}`);
+        }
+
+        const data = await responseId.json();
+
+        personId = data.results[0].id
+    }
+    catch (error) {
+        console.error("Error fetching persons details:", error);
+    }
+
+    // Find all movies linked to the person
+    const endpointFilms = `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${TMDB_API_KEY}`;
+    let personsFilms;
+
+    try {
+        const responseFilms = await fetch(endpointFilms);
+
+        if (!responseFilms.ok) {
+            throw new Error(`Network response error: ${responseFilms.status}`);
+        }
+
+        const data = await responseFilms.json();
+        const combinedData = data.cast.concat(data.crew);
+
+        // Filter the data
+        personsFilms = combinedData.filter(entry => {
+            const filterProfession = entry.job === "Actor"
+            || entry.job === "Director" 
+            || entry.job === "Writer";
+
+            return filterProfession;
+        });
+    }
+    catch (error) {
+        console.error("Error fetching persons movies:", error);
+    }
+
+    return personsFilms;
+};
+
+async function generateGridElements(movies) {
+    console.log(movies);
+
+    movies.forEach(movie => {
+
+        const score = movie.vote_average;
+        const totalReviews = movie.vote_count;
+
+        if (totalReviews < 10) { return; }
+
+        const gridItem = document.createElement("div");
+        gridItem.style.backgroundColor = `rgba(255, 0, 0, ${score/10})`;
+        gridItem.style.borderColor = "white";
+        gridItem.style.width = "100px";
+        gridItem.style.height = "100px";
+
+        gridElm.appendChild(gridItem);
+    });
+
+};
