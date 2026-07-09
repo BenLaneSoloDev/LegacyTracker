@@ -165,14 +165,14 @@ async function fetchMovieScores(dataObj) {
 
         const data = await responseFilms.json();
         const combinedData = data.cast.concat(data.crew);
+        console.log(combinedData);
 
         // Filter the data
+        const minorRoleKeywords = /cameo|uncredited|himself|herself|special appearance/i; // Used to remove cameos from search
         personsFilms = combinedData.filter(entry => {
-            const filterProfession = entry.job === "Actor"
-            || entry.job === "Director" 
-            || entry.job === "Writer";
-
-            return filterProfession;
+            const filterCrew = entry.job === "Director" || entry.job === "Writer";
+            const filterCast = entry.order < 5 && !minorRoleKeywords.test(entry.character);
+            return filterCrew || filterCast;
         });
     }
     catch (error) {
@@ -184,6 +184,10 @@ async function fetchMovieScores(dataObj) {
 
 async function generateGridElements(movies) {
     console.log(movies);
+
+    while (gridElm.firstChild) {
+        gridElm.removeChild(gridElm.firstChild);
+    }   
 
     movies.forEach(movie => {
 
