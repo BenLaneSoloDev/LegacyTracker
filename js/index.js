@@ -190,15 +190,13 @@ async function generateGridElements(movies) {
         const score = movie.vote_average;
         const totalReviews = movie.vote_count;
 
-        if (totalReviews < 10) { return; }
+        if (totalReviews < 2) { return; }
 
         const gridItem = document.createElement("div");
-        gridItem.style.backgroundColor = `rgba(255, 0, 0, ${score/10})`;
-        gridItem.style.borderColor = "white";
-        gridItem.style.width = "100px";
-        gridItem.style.height = "100px";
-
+        gridItem.classList.add("movie-item");
         gridElm.appendChild(gridItem);
+        
+        gridItem.style.height = `${gridItem.offsetHeight*(score/10)}px`;
     });
 
 };
