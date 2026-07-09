@@ -4,6 +4,7 @@ import { ACCESS_TOKEN_AUTH, TMDB_API_KEY } from "./config.js";
 const personElm = document.getElementById("person-select");
 const suggestionElm = document.getElementById("person-list");
 const roleElm = document.querySelector(".role");
+let personSelected;
 
 // Function for sending the fetch required to access person suggestions
 async function fetchPersonSuggestions(query) {
@@ -53,18 +54,22 @@ function renderSuggestions(list) {
     suggestionElm.innerHTML = "";
 
     list.forEach(person => {
-        const option = document.createElement("option");
-
-        // Set name value
-        option.value = person.name;
+        const option = document.createElement("div");
+        option.className = "dropdown-row";
 
         // Set additional info label
         const department = person.known_for_department;
         let topProject;
-        if (person.known_for && person.known_for.length > 0) {topProject = person.known_for[0].title; }
-        option.label = topProject ? `${name} (${department}, known for '${topProject})'` : department;
+        if (person.known_for && person.known_for.length > 0) { topProject = person.known_for[0].title; }
+        option.textContent = topProject ? `${person.name} (${department}, known for '${topProject})'` : `${person.name} (${department})`;
+
+        // Save ID
+        option.setAttribute('data-id', person.id);
+
         suggestionElm.appendChild(option);
     });
+
+    suggestionElm.style.display = "block";
 };
 
 // function that only runs the given function if the delay is met
@@ -80,32 +85,59 @@ function debounce(func, delay = 300) {
 
 // Debounce Fetch Reference Made (so same instance timer can be updated)
 const debounceFetch = debounce((query) => {
-
-    // Handle Toggling Role Filter
-    // if (query) { roleElm.classList.remove("is-hidden"); }
-    // else { roleElm.classList.add("is-hidden"); }
-
-    // Handles Fetch
     fetchPersonSuggestions(query);
-
 }, 300); 
 
-// Handle AutoFilling
-personElm.addEventListener("input", (event) => {
-
+function nameAlreadyValid(event) {
     const currentPerson = event.target.value;
 
     // Ensure currently typed person is valid
-    const exactMatchFound = Array.from(suggestionElm.options)
-        .some(option => option.value.toLowerCase() === currentPerson.toLowerCase());
+    const exactMatchFound = Array.from(suggestionElm.children)
+        .some(option => option.textContent.toLowerCase() === currentPerson.toLowerCase());
 
     if (exactMatchFound) {
         console.log("FOUND EXACT PERSON"); // MATCH FOUND, SO STOP SEARCHING
-        return;
+        return true;    
     }
+    return false;
+};
 
+// Handle AutoFilling
+personElm.addEventListener("input", (event) => {
+    if (nameAlreadyValid(event)) { return; }
     debounceFetch(event.target.value);
 });
+
+// Handle Lost Focus (save current name)
+personElm.addEventListener("focusout", (event) => {
+    if (nameAlreadyValid(event)) { return; }
+    
+    //fetchPersonID(event.target.value);
+    suggestionElm.style.display = "none";
+})
+
+suggestionElm.addEventListener('mousedown', (event) => {
+    event.preventDefault();
+    const clickedRow = event.target.closest('.dropdown-row');  
+    if (!clickedRow) return;
+
+    // Extract the exact array index from the clicked row's HTML attribute
+    personSelected = event.target.getAttribute("data-id"); 
+    console.log(personSelected);   
+    personElm.value = event.target.textContent.split(" (")[0]; 
+
+    suggestionElm.style.display = "none";
+});
+
+
+
+
+
+
+
+
+
+
 
 // HANDLE FORM SUBMISSIONS
 const formElm = document.querySelector(".filter-form");
@@ -116,26 +148,23 @@ formElm.addEventListener("submit", extractFormData);
 async function extractFormData(event) {
     event.preventDefault(); // STOP PAGE REFRESH
 
-    // EXTRACT DATA
-    const formData = new FormData(formElm);
-    const dataObj = {
-        person: formData.get('person')
+    if(!personSelected) { 
+        await fetchPersonID(personElm.value);
     };
 
-    const movies = await fetchMovieScores(dataObj);
-
+    const movies = await fetchMovieScores();
     generateGridElements(movies);
 }
 
-async function fetchMovieScores(dataObj) {
-    if (!dataObj.person.trim()) {
+async function fetchPersonID(person) {
+
+    if (!person.trim()) {
         console.log("NO PERSON SELECTED") // NEED TO DISPLAY ERROR ON SCREEN
         return;
     }
 
     // Grab the persons ID
-    const endpointId = `https://api.themoviedb.org/3/search/person?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(dataObj.person)}`;
-    let personId;
+    const endpointId = `https://api.themoviedb.org/3/search/person?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(person)}`;
 
     try {
         const responseId = await fetch(endpointId);
@@ -146,14 +175,22 @@ async function fetchMovieScores(dataObj) {
 
         const data = await responseId.json();
 
-        personId = data.results[0].id
+        const topPerson = data.results
+            .sort((a, b) => b.popularity - a.popularity)
+            .slice(0, 1)[0];
+
+        personElm.value = topPerson.name;
+        personSelected = topPerson.id;
     }
     catch (error) {
         console.error("Error fetching persons details:", error);
     }
+};
+
+async function fetchMovieScores() {
 
     // Find all movies linked to the person
-    const endpointFilms = `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${TMDB_API_KEY}`;
+    const endpointFilms = `https://api.themoviedb.org/3/person/${personSelected}/movie_credits?api_key=${TMDB_API_KEY}`;
     let personsFilms;
 
     try {
@@ -163,9 +200,10 @@ async function fetchMovieScores(dataObj) {
             throw new Error(`Network response error: ${responseFilms.status}`);
         }
 
+        console.log("FILMS FROM ID: " + personSelected);
+
         const data = await responseFilms.json();
         const combinedData = data.cast.concat(data.crew);
-        console.log(combinedData);
 
         // Filter the data
         const minorRoleKeywords = /cameo|uncredited|himself|herself|special appearance/i; // Used to remove cameos from search
@@ -179,6 +217,7 @@ async function fetchMovieScores(dataObj) {
         console.error("Error fetching persons movies:", error);
     }
 
+    personSelected = null;
     return personsFilms;
 };
 

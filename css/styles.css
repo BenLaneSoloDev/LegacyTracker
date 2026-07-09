@@ -119,6 +119,39 @@ h2 strong {
     margin-block: 20px 
 }
 
+.person {
+    position: relative;
+}
+
+.custom-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%; 
+    
+    z-index: 1000; /* Floats over charts/visualizations */
+    max-height: 250px; /* Limits height if there are many duplicates */
+    
+    color: black;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* 3. Styling individual rows */
+.dropdown-row {
+    padding: 10px 12px;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Hover effect behaves just like a native menu */
+.dropdown-row:hover {
+    background-color: #f0f0f0;
+}
 
 
 /**  DISPLAY DIV  **/
@@ -151,7 +184,7 @@ h2 strong {
     display: none;
 }
 
-/** JS CLASSES **/
+/** VISUALISATION CLASSES **/
 
 .movie-item {
     background-color: white;

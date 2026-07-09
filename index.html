@@ -31,7 +31,7 @@
                     <div class="filter person">
                         <label for="person-select">Person</label>
                         <input type="text" id="person-select" name="person" list="person-list" placeholder="Type a person (e.g. Nolan)..." autocomplete="off">
-                        <datalist id="person-list"></datalist> <!-- Data list is filled by a request -->
+                        <div id="person-list" class="custom-dropdown" style="display: none"><div> <!-- Filled by a request -->
                     </div>
 
                     <div class="filter role is-hidden"> <!-- Must be made visible upon choosing a person -->
