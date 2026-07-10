@@ -1,7 +1,7 @@
 import { suggestionElm, personElm, formElm } from "./general/elements.js";
 import { showElement } from "./general/reuse.js";
 import { nameInSuggestion, debouncePersonSuggestionsFetch, selectSuggestion} from "./filter/person.filter.js";
-import { extractFormData } from "./grid/grid.generate.js";
+import { createGridFromData } from "./grid/grid.generate.js";
 
 let personSelected;
 
@@ -35,6 +35,6 @@ formElm.addEventListener("submit", (event) => {
         event: event,
         personSelected: personSelected
     }
-    extractFormData(eventData);
+    createGridFromData(eventData);
 }); 
 

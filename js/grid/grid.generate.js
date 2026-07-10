@@ -1,8 +1,9 @@
 import { TMDB_API_KEY } from "../config/config.js";
-import { personElm, gridElm } from "../general/elements.js";
-import { displayGridError, clearGrid } from "./grid.utility.js";
+import { personElm } from "../general/elements.js";
+import { displayGridError } from "./grid.utility.js";
+import { createTreeMap } from "./grid.treemap.js";
 
-async function extractFormData(scaledEvent) {
+async function createGridFromData(scaledEvent) {
     
     const event = scaledEvent.event;
     let personSelected = scaledEvent.personSelected;
@@ -96,25 +97,7 @@ async function fetchMovieScores(personSelected) {
 
 async function generateGridElements(movies) {
     console.log(movies);
-
-    clearGrid();
-
-    // TODO: DOES NOT GENERATE ENOUGH ELEMENTS
-    movies.forEach(movie => {
-
-        const score = movie.vote_average;
-        const totalReviews = movie.vote_count;
-
-        if (totalReviews < 2) { return; }
-
-        const gridItem = document.createElement("div");
-
-        
-        gridItem.classList.add("movie-item");
-        gridElm.appendChild(gridItem);
-        
-        gridItem.style.height = `${gridItem.offsetHeight*(score/10)}px`;
-    });
+    createTreeMap(movies, 960, 640);
 };
 
-export { extractFormData }
+export { createGridFromData }

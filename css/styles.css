@@ -168,8 +168,23 @@ h2 strong {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
     flex-wrap: wrap;
     gap: 10px;
+}
+
+.movie-item {
+    position: absolute;
+    background-color: white;
+    width: 120px;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+}
+
+.treemap {
+
 }
 
 /**  LINK DIV  **/
@@ -184,15 +199,3 @@ h2 strong {
     display: none;
 }
 
-/** VISUALISATION CLASSES **/
-
-.movie-item {
-    background-color: white;
-    width: 12px;
-    height: 240px;
-    transition: background-color 0.0s ease-out;
-}
-
-.movie-item:hover {
-    background-color: var(--primary-color);
-}
