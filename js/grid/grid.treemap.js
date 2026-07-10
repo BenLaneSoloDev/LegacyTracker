@@ -28,7 +28,7 @@ function createTreeMap(movies, w = 900, h = 600) {
     // Unpack coordinates and place elements
     root.leaves().forEach(movie => {
         const poster = document.createElement("div");
-        poster.classList["movie-item treemap"];
+        poster.classList.add("movie-item", "treemap");
         
         const width = movie.x1 - movie.x0;
         const height = movie.y1 - movie.y0;
