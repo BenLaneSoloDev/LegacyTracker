@@ -93,11 +93,13 @@ function selectSuggestion(event) {
 }
 
 function nameInSuggestion(event) {
-    const currentPerson = event.target.value;
+    const currentPerson = event.target.value.trim();
 
     // Ensure currently typed person is valid
     const exactMatchFound = Array.from(suggestionElm.children)
-        .some(option => option.textContent.toLowerCase() === currentPerson.toLowerCase());
+        .some(option => option.textContent.trim().toLowerCase().split(" (")[0] === currentPerson.toLowerCase());
+
+    console.log(exactMatchFound);
 
     if (exactMatchFound) {
         console.log("FOUND EXACT PERSON"); // MATCH FOUND, SO STOP SEARCHING

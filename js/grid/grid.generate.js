@@ -1,5 +1,6 @@
-import { TMDB_API_KEY } from "./config/config.js";
-import { personElm, gridElm } from "./general/elements.js";
+import { TMDB_API_KEY } from "../config/config.js";
+import { personElm, gridElm } from "../general/elements.js";
+import { displayGridError, clearGrid } from "./grid.utility.js";
 
 async function extractFormData(scaledEvent) {
     
@@ -9,6 +10,9 @@ async function extractFormData(scaledEvent) {
     event.preventDefault(); // STOP PAGE REFRESH
 
     if(!personSelected) { 
+        const errString = "No person selected";
+        console.log("ERROR: ", errString);
+        displayGridError(errString);
         return;
     };
 
@@ -19,7 +23,9 @@ async function extractFormData(scaledEvent) {
 async function fetchPersonID(person) {
 
     if (!person.trim()) {
-        console.log("NO PERSON SELECTED") // NEED TO DISPLAY ERROR ON SCREEN
+        const errString = "No person selected";
+        console.log("ERROR: ", errString);
+        displayGridError(errString);
         return;
     }
 
@@ -30,7 +36,9 @@ async function fetchPersonID(person) {
         const responseId = await fetch(endpointId);
 
         if (!responseId.ok) {
-            throw new Error(`Network response error: ${responseId.status}`);
+            const errString = `Could not get network response: ${responseId.status}`
+            throw new Error("ERROR: " + errString);
+            displayGridError(errString);
         }
 
         const data = await responseId.json();
@@ -43,7 +51,9 @@ async function fetchPersonID(person) {
         return topPerson.id;
     }
     catch (error) {
-        console.error("Error fetching persons details:", error);
+        const errString = "Could not fetch the persons data";
+        console.error("ERROR: " + errString, error);
+        displayGridError(errString);
     }
 };
 
@@ -57,7 +67,9 @@ async function fetchMovieScores(personSelected) {
         const responseFilms = await fetch(endpointFilms);
 
         if (!responseFilms.ok) {
-            throw new Error(`Network response error: ${responseFilms.status}`);
+            const errString = `Could not get network response: ${responseFilms.status}`
+            throw new Error("ERROR: " + errString);
+            displayGridError(errString);
         }
 
         console.log("FILMS FROM ID: " + personSelected);
@@ -74,7 +86,9 @@ async function fetchMovieScores(personSelected) {
         });
     }
     catch (error) {
-        console.error("Error fetching persons movies:", error);
+        const errString = "Could not fetch the persons movies";
+        console.error("ERROR: " + errString, error);
+        displayGridError(errString);
     }
 
     return personsFilms;
@@ -83,9 +97,7 @@ async function fetchMovieScores(personSelected) {
 async function generateGridElements(movies) {
     console.log(movies);
 
-    while (gridElm.firstChild) {
-        gridElm.removeChild(gridElm.firstChild);
-    }   
+    clearGrid();
 
     // TODO: DOES NOT GENERATE ENOUGH ELEMENTS
     movies.forEach(movie => {
@@ -103,7 +115,6 @@ async function generateGridElements(movies) {
         
         gridItem.style.height = `${gridItem.offsetHeight*(score/10)}px`;
     });
-
 };
 
 export { extractFormData }

@@ -1,7 +1,7 @@
 import { suggestionElm, personElm, formElm } from "./general/elements.js";
 import { showElement } from "./general/reuse.js";
 import { nameInSuggestion, debouncePersonSuggestionsFetch, selectSuggestion} from "./filter/person.filter.js";
-import { extractFormData } from "./generate.js";
+import { extractFormData } from "./grid/grid.generate.js";
 
 let personSelected;
 
@@ -15,8 +15,9 @@ personElm.addEventListener("input", (event) => {
 
 // Remove Person Dropdown
 personElm.addEventListener("focusout", (event) => {
-    // TODO: NEED TO FIND WAY FOR NON COMPLETE NAME FROM SENDING
     showElement(suggestionElm, false);
+    if (nameInSuggestion(event)) { return; }
+    personSelected = "";
 })
 
 // Selects Dropdown For Person
@@ -29,6 +30,7 @@ suggestionElm.addEventListener('mousedown', (event) => {
 // * ======= Visual Generation ======= *
 
 formElm.addEventListener("submit", (event) => {
+    console.log("CLICK");
     const eventData = {
         event: event,
         personSelected: personSelected
