@@ -77,11 +77,32 @@ async function fetchMovieScores(personSelected) {
         const combinedData = data.cast.concat(data.crew);
 
         // Filter the data
-        const minorRoleKeywords = /cameo|uncredited|himself|herself|special appearance/i; // Used to remove cameos from search
+        const addedMovies = new Set();
         personsFilms = combinedData.filter(entry => {
-            const filterCrew = entry.job === "Director" || entry.job === "Writer";
-            const filterCast = entry.order < 5 && !minorRoleKeywords.test(entry.character);
-            return filterCrew || filterCast;
+            if (addedMovies.has(entry.id)) { return false; }                                    // DUPLICATES
+
+            if (entry.media_type && entry.media_type !== "movie") { return false; }             // ONLY MOVIES
+
+            const genreIds = entry.genre_ids || [];
+            if (genreIds.includes(99) || genreIds.includes(10770)) { return false; }            // NO TV MOV / DOCS
+
+            const shortKeywords = /short|music video|video short/i.test(entry.title || '');
+            if (shortKeywords) { return false; }                                                // SHORTS / VIDEO
+
+            const isGhostProject = (!entry.vote_count || entry.vote_count === 0) 
+            && entry.popularity < 1.5;
+            if (isGhostProject) { return false; }                                               // GHOST PROJECT
+
+            if (entry.job && entry.job !== "Director" && entry.job !== "Writer") { return false; }           // DIRECTOR OR WRITER
+
+            const minorRoleKeywords = /cameo|uncredited|himself|herself|special appearance/i
+            .test(entry.character || "");
+            if (entry.order >= 5 && minorRoleKeywords) { return false; }                         // SMALL ROLE
+
+            if (!entry.release_date || !entry.poster_path) { return false; }                    // NO DISPLAY DATA
+
+            addedMovies.add(entry.id);
+            return true;
         });
     }
     catch (error) {
