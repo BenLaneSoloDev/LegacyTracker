@@ -1,7 +1,8 @@
-import { suggestionElm, personElm, formElm } from "./general/elements.js";
+import { suggestionElm, personElm, formElm, gridElm } from "./general/elements.js";
 import { showElement } from "./general/reuse.js";
 import { nameInSuggestion, debouncePersonSuggestionsFetch, selectSuggestion} from "./filter/person.filter.js";
 import { createGridFromData } from "./grid/grid.generate.js";
+import { handleHoverTM, displayExitTM } from "./grid/grid.treemap.js";
 
 let personSelected;
 
@@ -21,7 +22,7 @@ personElm.addEventListener("focusout", (event) => {
 })
 
 // Selects Dropdown For Person
-suggestionElm.addEventListener('mousedown', (event) => {
+suggestionElm.addEventListener("mousedown", (event) => {
     event.preventDefault();
     personSelected = selectSuggestion(event);
     showElement(suggestionElm, false);
@@ -30,7 +31,6 @@ suggestionElm.addEventListener('mousedown', (event) => {
 // * ======= Visual Generation ======= *
 
 formElm.addEventListener("submit", (event) => {
-    console.log("CLICK");
     const eventData = {
         event: event,
         personSelected: personSelected
@@ -38,3 +38,12 @@ formElm.addEventListener("submit", (event) => {
     createGridFromData(eventData);
 }); 
 
+// * ======= Treemap Item Interaction ======= *
+
+gridElm.addEventListener("mousemove", (event) => {
+    handleHoverTM(event);     // TREEMAP FUNCTION
+});
+
+gridElm.addEventListener("mouseleave", (event) => {
+    displayExitTM(event);     // TREEMAP FUNCTION
+}, true);

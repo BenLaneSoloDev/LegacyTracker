@@ -99,10 +99,7 @@ function nameInSuggestion(event) {
     const exactMatchFound = Array.from(suggestionElm.children)
         .some(option => option.textContent.trim().toLowerCase().split(" (")[0] === currentPerson.toLowerCase());
 
-    console.log(exactMatchFound);
-
-    if (exactMatchFound) {
-        console.log("FOUND EXACT PERSON"); // MATCH FOUND, SO STOP SEARCHING
+    if (exactMatchFound) {  // MATCH FOUND, SO STOP SEARCHING
         return true;    
     }
     return false;

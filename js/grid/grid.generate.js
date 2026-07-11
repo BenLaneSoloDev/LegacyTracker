@@ -73,8 +73,6 @@ async function fetchMovieScores(personSelected) {
             displayGridError(errString);
         }
 
-        console.log("FILMS FROM ID: " + personSelected);
-
         const data = await responseFilms.json();
         const combinedData = data.cast.concat(data.crew);
 
@@ -96,7 +94,6 @@ async function fetchMovieScores(personSelected) {
 };
 
 async function generateGridElements(movies) {
-    console.log(movies);
     createTreeMap(movies, 960, 640);
 };
 

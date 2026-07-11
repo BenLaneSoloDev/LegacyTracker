@@ -2,6 +2,8 @@ import { gridElm } from "../general/elements.js";
 
 function displayGridError(message) {
     gridElm.innerHTML = "";
+    gridElm.style.width = "auto";
+    gridElm.style.height = "auto";
     gridElm.textContent = `ERROR: ${message}`;
 };
 
