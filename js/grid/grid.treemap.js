@@ -18,7 +18,7 @@ function createTreeMap(movies, w = 900, h = 600) {
     // Form node tree
     const root = d3.hierarchy(treeStructure)
     // Scale block based on TMDB score
-    .sum(d => d.vote_average || d.score)
+    .sum(d => Math.pow(d.vote_average, 2 * d.vote_average / 10) || Math.pow(d.score, 2 * d.score / 10) || 0)
     // Sorts biggest scores to lowest (could toggle)
     .sort((a, b) => b.value - a.value)
     ;
