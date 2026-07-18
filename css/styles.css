@@ -17,7 +17,7 @@ body {
 /**  HEADER DIV  **/
 
 .title-div { 
-    
+    margin-inline: var(--default-margin);
 }
 
 h1 {
@@ -34,7 +34,7 @@ h1 {
 .search-div {
     display: flex;
     flex-direction: column;
-    margin-inline: 10%;
+    margin-inline: var(--default-margin);
 }
 
 h2 {
@@ -221,8 +221,32 @@ h2 strong {
 
 /**  LINK DIV  **/
 
-.link-div p {
-    text-align: center;
+.link-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-block: 1rem;
+  margin-inline: var(--default-margin);
+  text-align: center;
+}
+
+.link-div > p {
+  margin-block: 0px;
+  margin-bottom: 0.5rem;
+}
+
+.credit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+}
+
+.credit img {
+  max-height: 0.5rem;
 }
 
 /** OVERRIDES **/
