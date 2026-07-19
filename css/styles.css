@@ -38,180 +38,179 @@ h1 {
 }
 
 h2 {
-    text-align: center;
-    margin-top: 0px;
-    margin-bottom: 40px; /** GAP UNDER FILTER TITLE **/
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 40px; /** GAP UNDER FILTER TITLE **/
 }
 
 h2 strong {
-    text-transform: uppercase;
-    font-size: 1.5rem;
-    color: #00f7d6;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  color: #00f7d6;
 }
 
 .filter-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .filter-list {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2%;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2%;
+  width: 100%;
 }
 
 .filter {
-    padding-block: 5px;
+  padding-block: 5px;
 }
 
 .filter, .creative {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    width: 15%;
-    min-width: 300px;
-    height: auto;
+  width: 15%;
+  min-width: 300px;
+  height: auto;
 }
 
 /** CUSTOM OVERRIDE OF FILTER TO ALLOW NESTED ONES TO WORK **/
 .creative .filter {
-    width: 100%;
-    max-width: 100%;
+  width: 100%;
+  max-width: 100%;
 }
 
 .filter label {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 1em;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1em;
 }
 
 .filter select {
-    background-color: #f9f9f9;
-    max-width: 80%;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 12px 16px;
-    border-radius: 20px;
-    margin-block: 5px;
+  background-color: #f9f9f9;
+  max-width: 80%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  border-radius: 20px;
+  margin-block: 5px;
 }
 
 .filter input {
-    background-color: #f9f9f9;
-    max-width: 80%;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 12px 16px;
-    border-radius: 20px;
-    margin-block: 5px;
+  background-color: #f9f9f9;
+  max-width: 80%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  border-radius: 20px;
+  margin-block: 5px;
 }
 
 .role {
-    
+  
 }
 
 #filter-submit {
-    max-width: 10%;
-    height: 50px;
-    min-width: 200px;
-    border-radius: 20px;
-    margin-block: 20px 
+  max-width: 10%;
+  height: 50px;
+  min-width: 200px;
+  border-radius: 20px;
+  margin-block: 20px 
 }
 
 .person {
-    position: relative;
+  position: relative;
 }
 
 .custom-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%; 
-    
-    z-index: 1000; /* Floats over charts/visualizations */
-    max-height: 250px; /* Limits height if there are many duplicates */
-    
-    color: black;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 0 0 4px 4px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%; 
+  
+  z-index: 1000; /* Floats over charts/visualizations */
+  max-height: 250px; /* Limits height if there are many duplicates */
+  
+  color: black;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* 3. Styling individual rows */
 .dropdown-row {
-    padding: 10px 12px;
-    cursor: pointer;
-    font-family: sans-serif;
-    font-size: 14px;
-    color: #333;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #333;
 }
 
 /* Hover effect behaves just like a native menu */
 .dropdown-row:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 
 /**  DISPLAY DIV  **/
 
 .display-div {
-    flex:1;
-    background-color: var(--secondary-color);
-    padding: 2.5%;
-    display: flex;
-    justify-content: center;
+  flex:1;
+  background-color: var(--secondary-color);
+  padding: 2.5%;
+  display: flex;
+  justify-content: center;
 }
 
 .grid {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: visible;
-    flex-wrap: wrap;
-    gap: 10px;
-    border-radius: 5px;
-    background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-radius: 5px;
+  background-color: var(--primary-color);
 }
 
 .movie-item {
-    position: absolute;
-    overflow: hidden;
-    transition: overflow 0.2s linear 0.3s;
+  position: absolute;
+  overflow: hidden;
+  transition: overflow 0.2s linear 0.3s;
 }
 
 .movie-panel {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    color: black;
-    font-family: sans-serif;
-    font-size: 11px;
-    padding: 6px 8px;
-    box-sizing: border-box;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    z-index: -1;
-    transition: 
-        opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1),
-        transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  position: absolute;
+  left: 50%;
+  width: 100%;
+  color: black;
+  font-family: sans-serif;
+  font-size: 11px;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: -1;
+  transform: translateX(-50%);
+  transition: 
+    opacity var(--panel-speed) cubic-bezier(0.25, 1, 0.5, 1),
+    transform var(--panel-speed) cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .panel-top {
     top: 0;
     border-radius: 15px 15px 0px 0px;
-    background: linear-gradient(to bottom, rgba(238, 234, 234, 0.85) 70%, white);;
-    transform: translateY(-5px);  /* Adds subtle flip up to animation */
+    background: linear-gradient(to bottom, rgba(238, 234, 234, 0.85) 70%, white);
 }
 
 .panel-bottom {
     bottom: 0;
     border-radius: 0px 0px 15px 15px;
     background: linear-gradient(to top, rgba(232, 228, 228, 0.85) 70%, white);
-    transform: translateY(5px); /* Adds subtle flip up to animation */
 }
 
 .movie-item.is-hovered {
@@ -235,10 +234,10 @@ h2 strong {
     border: 0px solid white;
 
     transition: 
-    transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
-    aspect-ratio 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
-    box-shadow 0.3s,
-    border 0.3s ease-out;
+      transform var(--poster-speed) cubic-bezier(0.25, 1, 0.5, 1), 
+      aspect-ratio var(--poster-speed) cubic-bezier(0.25, 1, 0.5, 1), 
+      box-shadow var(--poster-speed),
+      border var(--poster-speed) ease-out;
 }
 
 .movie-item.is-hovered img {

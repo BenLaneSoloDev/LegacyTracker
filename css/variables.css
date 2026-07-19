@@ -4,4 +4,9 @@
     --default-font: "Montserrat", "serif";
     --debug-border: 1px solid rgb(159, 167, 167);
     --default-margin: 10%;
+
+    /** Poster Variables **/
+    --poster-zoom: 1.4;
+    --poster-speed: 0.3s;
+    --panel-speed: 0.25s;
 }

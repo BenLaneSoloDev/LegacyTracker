@@ -3,13 +3,13 @@ import { suggestionElm, personElm } from "../general/elements.js";
 
 // function that only runs the given function if the delay is met
 function debounce(func, delay = 300) { 
-    let timeoutId;
-    return (...args) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            func.apply(null, args);
-        }, delay);
-    }
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(null, args);
+    }, delay);
+  }
 }
 
 // Debounce Fetch Reference Made (so same instance timer can be updated)
@@ -105,5 +105,5 @@ function nameInSuggestion(event) {
     return false;
 };
 
-export { nameInSuggestion, debouncePersonSuggestionsFetch, selectSuggestion }
+export { nameInSuggestion, debouncePersonSuggestionsFetch, selectSuggestion, debounce }
 
