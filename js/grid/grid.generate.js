@@ -18,6 +18,15 @@ async function createGridFromData(scaledEvent) {
     };
 
     const movies = await fetchMovieScores(personSelected);
+
+    // RETURN ERROR IF NO FILMS SURVIVE THE FILTERS
+    if (movies.length === 0) {
+      const errString = "No movies found";
+      console.log("ERROR: ", errString);
+      displayGridError(errString);
+      return;
+    }
+
     generateGridElements(movies);
 }
 
@@ -110,7 +119,6 @@ async function fetchMovieScores(personSelected) {
         const highestMovieReviews = Math.max(...personsFilms.map(m => m.vote_count || 0));
         const dynamicReviewFloor = Math.max(50, Math.min(250, highestMovieReviews * 0.02));
         personsFilms = personsFilms.filter(movie => movie.vote_count >= dynamicReviewFloor);
-        console.log(personsFilms);
     }
     catch (error) {
         const errString = "Could not fetch the persons movies";
@@ -122,7 +130,7 @@ async function fetchMovieScores(personSelected) {
 };
 
 async function generateGridElements(movies) {
-    createTreeMap(movies, 960, 640);
+  createTreeMap(movies);
 };
 
 export { createGridFromData }

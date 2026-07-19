@@ -3,10 +3,30 @@ import { gridElm } from "../general/elements.js";
 import { clearGrid } from "./grid.utility.js";
 import { mouseOutOfElement } from '../general/reuse.js';
 
-function createTreeMap(movies, w = 900, h = 600) {
+function createTreeMap(movies) {
 
-    gridElm.style.width = `${w}px`;
-    gridElm.style.height = `${h}px`;
+    let endWidth = 900;
+    let endHeight = 600;
+    const movieCap = 25;
+
+    // ADJUSTS WITH EXPONENTIALLY BASED ON MOVIE COUNT (1 - 25)
+    const movieTotal = Math.max(1, Math.min(movieCap, movies.length));
+
+    const curveScale = d3.scalePow()  // Sets Logirthmic scale, ease out
+      .exponent(0.5) 
+      .domain([1, 25]);
+
+    const widthScale = curveScale.copy()
+      .range([100, endWidth]);
+
+    const heightScale = curveScale.copy()
+      .range([100, endHeight]);
+
+    const calculatedWidth = widthScale(movieTotal);
+    const calculatedHeight = heightScale(movieTotal);
+
+    gridElm.style.width = `${calculatedWidth}px`;
+    gridElm.style.height = `${calculatedHeight}px`;
     clearGrid();
 
     // Create root parent
@@ -24,7 +44,7 @@ function createTreeMap(movies, w = 900, h = 600) {
     ;
 
     // Initialise Packing Rules
-    d3.treemap().size([w, h]).padding(5).tile(d3.treemapSquarify.ratio(0.666666))(root);
+    d3.treemap().size([calculatedWidth, calculatedHeight]).padding(5).tile(d3.treemapSquarify.ratio(0.666666))(root);
 
     // Unpack coordinates and place elements
     root.leaves().forEach(movie => {
