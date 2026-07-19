@@ -46,4 +46,4 @@ gridElm.addEventListener("mousemove", (event) => {
 
 gridElm.addEventListener("mouseleave", (event) => {
     displayExitTM(event);     // TREEMAP FUNCTION
-}, true);
+}, true); 

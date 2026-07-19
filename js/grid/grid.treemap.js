@@ -58,6 +58,12 @@ function createTreeMap(movies) {
         posterElm.style.width = `${width}px`;
         posterElm.style.height = `${height}px`;
 
+        // Create Title Panel
+        const titlePanel = document.createElement("div");
+        titlePanel.classList.add("movie-panel", "panel-top");
+        titlePanel.textContent = movie.data.title;
+
+        // Create Poster Image
         const poster = document.createElement("img"); // Creates poster for movie item
         posterElm.setAttribute("data-title", movie.data.title);
         const posterURL = `https://image.tmdb.org/t/p/w500/${movie.data.poster_path}`;
@@ -66,8 +72,18 @@ function createTreeMap(movies) {
         } else {
             poster.style.backgroundColor = "white";
         }
-        
+
+        // Create Score Panel
+        const scorePanel = document.createElement("div");
+        scorePanel.classList.add("movie-panel", "panel-bottom");
+        const score = movie.data.vote_average || movie.data.score || 0;
+        scorePanel.textContent = `${score * 10}%`;
+
+        // Add to parent
+        posterElm.appendChild(titlePanel);
         posterElm.appendChild(poster);
+        posterElm.appendChild(scorePanel);
+
         gridElm.appendChild(posterElm);
     });
 };
@@ -104,8 +120,44 @@ function handleHoverTM(event) {
         
         const activeItem = gridElm.querySelector(".treemap-item.is-hovered");
         if (activeItem) activeItem.classList.remove("is-hovered");
-        
+
         targetItem.classList.add("is-hovered");
+
+        // Doesnt add panels until image is fully expanded
+        const panelAnimSpeed = 200; // in ms
+        setTimeout(() => {
+            const img = targetItem.querySelector("img");
+            const panels = targetItem.querySelectorAll(".movie-panel");
+            if (!img || panels.length === 0) return;
+
+            const imgRect = img.getBoundingClientRect();
+            const containerRect = targetItem.getBoundingClientRect();
+
+            // 1. Exactly match the image's current pixel width
+            const currentWidth = imgRect.width;
+            
+            // 2. Calculate horizontal shift to center the panels over the scaled image
+            const leftOffset = imgRect.left - containerRect.left;
+
+            // 3. Find exactly how far out the top and bottom edges have expanded
+            const topShift = imgRect.top - containerRect.top;       // Negative value (e.g., -30px)
+            const bottomShift = imgRect.bottom - containerRect.bottom; // Positive value (e.g., 30px)
+
+            const borderWidth = parseInt(getComputedStyle(img).borderTopWidth) || 0;
+
+            panels.forEach(panel => {
+                panel.style.width = `${currentWidth}px`;
+                panel.style.left = `${leftOffset}px`;
+
+                if (panel.classList.contains("panel-top")) {
+                    // Push the top panel UP to match the top of the image
+                    panel.style.transform = `translateY(${topShift - panel.clientHeight + borderWidth}px)`;
+                } else if (panel.classList.contains("panel-bottom")) {
+                    // Push the bottom panel DOWN to match the bottom of the image
+                    panel.style.transform = `translateY(${bottomShift + panel.clientHeight - borderWidth}px)`;
+                }
+            });
+        }, panelAnimSpeed); // This duration matched the image transition duration
     }
 };
 
