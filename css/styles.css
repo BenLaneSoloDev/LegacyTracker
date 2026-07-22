@@ -4,7 +4,6 @@
 
 body {
     background-color: var(--primary-color);
-    font-family: var(--default-font);
 
     margin: 0px;
     color: white;
@@ -45,6 +44,7 @@ h2 {
 
 h2 strong {
   text-transform: uppercase;
+  font-weight: 700;
   font-size: 1.5rem;
   color: #00f7d6;
 }
@@ -143,7 +143,6 @@ h2 strong {
 .dropdown-row {
   padding: 10px 12px;
   cursor: pointer;
-  font-family: sans-serif;
   font-size: 14px;
   color: #333;
 }
@@ -185,15 +184,17 @@ h2 strong {
 .movie-panel {
   position: absolute;
   left: 50%;
+
+  min-width: 0;
   width: 100%;
+  height: auto;
+  overflow-wrap: break-word;
+
   color: black;
-  font-family: sans-serif;
   font-size: 11px;
   padding: 6px 8px;
-  box-sizing: border-box;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-align: center;
+
   z-index: -1;
   transform: translateX(-50%);
   transition: 
@@ -202,6 +203,7 @@ h2 strong {
 }
 
 .panel-top {
+    font-weight: bold;
     top: 0;
     border-radius: 15px 15px 0px 0px;
     background: linear-gradient(to bottom, rgba(238, 234, 234, 0.85) 70%, white);
